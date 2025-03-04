@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fish Tank Cycling Tracker
+
+A Progressive Web App (PWA) to help you track and monitor your fish tank cycling process.
+
+## Features
+
+- **Dashboard**: View your current cycling phase, progress, and latest water parameters
+- **Water Readings**: Record and track ammonia, nitrite, nitrate, pH, and temperature readings
+- **Cycling Guide**: Learn about the nitrogen cycle and get tips for successful cycling
+- **Progress Tracking**: Visual indicators of your progress through the cycling phases
+- **Data Visualization**: Charts to visualize your water parameters over time
+- **Offline Support**: Works even when you're offline (PWA)
+- **Mobile Friendly**: Responsive design works on all devices
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18.0 or later
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/fish-tank-setup-app.git
+cd fish-tank-setup-app
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Dashboard**: The main page shows your current cycling phase, progress, and latest readings.
+2. **Add Readings**: Use the "Add New Reading" button to record your water parameters.
+3. **View History**: Go to the Readings page to see all your historical readings.
+4. **Learn**: Visit the Guide page to learn about the nitrogen cycle and get tips.
 
-## Learn More
+## Customization
 
-To learn more about Next.js, take a look at the following resources:
+You can customize your start date and cycling phases in the `src/app/data/tankSetupData.ts` file.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technologies Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Chart.js
+- date-fns
+- Local Storage for data persistence
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Acknowledgments
+
+- Created for fish keepers to easily track their tank cycling process
+- Inspired by the need for a simple, user-friendly way to monitor water parameters
