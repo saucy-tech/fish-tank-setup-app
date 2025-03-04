@@ -10,13 +10,14 @@ export default function AddReadingForm() {
   const { darkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
-  const [formData, setFormData] = useState<Omit<WaterReading, "date">>({
+  const [formData, setFormData] = useState({
     ammonia: 0,
     nitrite: 0,
     nitrate: 0,
     ph: 7.0,
     temperature: 78,
     notes: "",
+    date: new Date().toISOString().split("T")[0],
   });
 
   const handleChange = (
@@ -64,6 +65,7 @@ export default function AddReadingForm() {
       ph: 7.0,
       temperature: 78,
       notes: "",
+      date: new Date().toISOString().split("T")[0],
     });
     setIsOpen(false);
   };

@@ -1,22 +1,23 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTank } from "../data/TankContext";
 import { useTheme } from "../data/ThemeContext";
 import { formatDate } from "../utils/helpers";
-import { phases, startDate } from "../data/tankSetupData";
+import { format } from "date-fns";
+import { phases } from "../data/tankSetupData";
 import PhaseCard from "./PhaseCard";
+import StartDateTracker from "./StartDateTracker";
 
 // Helper functions
-const getDaysSinceStart = () => {
-  if (!startDate) return 0;
+const getDaysSinceStart = (startDate: Date) => {
   const today = new Date();
   const diffTime = Math.abs(today.getTime() - startDate.getTime());
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 };
 
-const getPhaseProgress = (currentPhase: any) => {
+const getPhaseProgress = (currentPhase: any, startDate: Date) => {
   const today = new Date();
   const diffTime = Math.abs(today.getTime() - startDate.getTime());
   const currentDay = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -27,7 +28,7 @@ const getPhaseProgress = (currentPhase: any) => {
   return Math.min(100, Math.round((daysInPhase / phaseDuration) * 100));
 };
 
-const getOverallProgress = () => {
+const getOverallProgress = (startDate: Date) => {
   const today = new Date();
   const diffTime = Math.abs(today.getTime() - startDate.getTime());
   const currentDay = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -37,14 +38,14 @@ const getOverallProgress = () => {
   return Math.min(100, Math.round((currentDay / totalDuration) * 100));
 };
 
-const getPhaseEndDate = (phase: any) => {
+const getPhaseEndDate = (phase: any, startDate: Date) => {
   const endDate = new Date(startDate);
   endDate.setDate(endDate.getDate() + phase.endDay);
   return endDate;
 };
 
 // Calculate estimated date for a task based on phase timeline
-const getEstimatedDate = (phaseId: number): Date => {
+const getEstimatedDate = (phaseId: number, startDate: Date): Date => {
   const phase = phases[phaseId];
   const phaseStartDate = new Date(startDate);
   phaseStartDate.setDate(phaseStartDate.getDate() + phase.startDay);
@@ -58,19 +59,39 @@ const getEstimatedDate = (phaseId: number): Date => {
   return estimatedDate;
 };
 
+interface ChartData {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    borderColor: string;
+    backgroundColor: string;
+  }[];
+}
+
 export default function Dashboard() {
   const { readings, tasks, getCurrentPhase } = useTank();
   const { darkMode } = useTheme();
   const currentPhase = getCurrentPhase();
-  const daysSinceStart = getDaysSinceStart();
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [daysSinceStart, setDaysSinceStart] = useState(0);
+
+  useEffect(() => {
+    const savedDate = localStorage.getItem("tankStartDate");
+    if (savedDate) {
+      const date = new Date(savedDate);
+      setStartDate(date);
+      setDaysSinceStart(getDaysSinceStart(date));
+    }
+  }, []);
 
   if (!currentPhase) {
     return <div className="p-4">Loading...</div>;
   }
 
-  const phaseProgress = getPhaseProgress(currentPhase);
-  const overallProgress = getOverallProgress();
-  const phaseEndDate = getPhaseEndDate(currentPhase);
+  const phaseProgress = getPhaseProgress(currentPhase, startDate);
+  const overallProgress = getOverallProgress(startDate);
+  const phaseEndDate = getPhaseEndDate(currentPhase, startDate);
 
   // Get the most recent reading
   const latestReading =
@@ -104,8 +125,34 @@ export default function Dashboard() {
     .sort((a, b) => a.phaseId - b.phaseId)
     .slice(0, 3);
 
+  const chartData: ChartData = {
+    labels: readings.map((reading) => format(new Date(reading.date), "MMM d")),
+    datasets: [
+      {
+        label: "Ammonia",
+        data: readings.map((reading) => reading.ammonia),
+        borderColor: "rgb(59, 130, 246)",
+        backgroundColor: "rgba(59, 130, 246, 0.5)",
+      },
+      {
+        label: "Nitrite",
+        data: readings.map((reading) => reading.nitrite),
+        borderColor: "rgb(16, 185, 129)",
+        backgroundColor: "rgba(16, 185, 129, 0.5)",
+      },
+      {
+        label: "Nitrate",
+        data: readings.map((reading) => reading.nitrate),
+        borderColor: "rgb(245, 158, 11)",
+        backgroundColor: "rgba(245, 158, 11, 0.5)",
+      },
+    ],
+  };
+
   return (
     <div className="container mx-auto p-4 max-w-6xl">
+      <StartDateTracker />
+
       <div
         className={`${
           darkMode
@@ -278,7 +325,10 @@ export default function Dashboard() {
                           </span>
                         ) : (
                           <span className="badge badge-gray">
-                            Est: {formatDate(getEstimatedDate(task.phaseId))}
+                            Est:{" "}
+                            {formatDate(
+                              getEstimatedDate(task.phaseId, startDate)
+                            )}
                           </span>
                         )}
                       </div>
@@ -319,7 +369,10 @@ export default function Dashboard() {
                           </span>
                         ) : (
                           <span className="badge badge-gray">
-                            Est: {formatDate(getEstimatedDate(task.phaseId))}
+                            Est:{" "}
+                            {formatDate(
+                              getEstimatedDate(task.phaseId, startDate)
+                            )}
                           </span>
                         )}
                       </div>
@@ -389,7 +442,7 @@ export default function Dashboard() {
 
             <ul className="space-y-4">
               {upcomingTasks.map((task) => {
-                const estimatedDate = getEstimatedDate(task.phaseId);
+                const estimatedDate = getEstimatedDate(task.phaseId, startDate);
                 const phaseName = phases[task.phaseId].name;
 
                 return (

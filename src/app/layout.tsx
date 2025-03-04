@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { TankProvider } from "./data/TankContext";
 import { ThemeProvider } from "./data/ThemeContext";
 import Navigation from "./components/Navigation";
+import FooterBanner from "./components/FooterBanner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -28,11 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 dark:bg-gray-900 min-h-screen dark:text-gray-100 transition-colors duration-200`}>
+        className={`${inter.variable} font-sans antialiased bg-gray-100 dark:bg-gray-900 min-h-screen dark:text-gray-100 transition-colors duration-200`}>
         <ThemeProvider>
           <TankProvider>
             <Navigation />
             <main className="pt-20 pb-6 px-4">{children}</main>
+            <FooterBanner />
           </TankProvider>
         </ThemeProvider>
       </body>

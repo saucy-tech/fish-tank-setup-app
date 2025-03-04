@@ -69,7 +69,15 @@ export default function Navigation() {
           {/* Dark mode toggle */}
           <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-full focus:outline-none mr-2"
+            className={`p-2 rounded-full focus:outline-none mr-2 ${
+              scrolled
+                ? darkMode
+                  ? "bg-gray-700 hover:bg-gray-600"
+                  : "bg-blue-100 hover:bg-blue-200"
+                : darkMode
+                ? "bg-white/20 hover:bg-white/30"
+                : "bg-white/20 hover:bg-white/30"
+            } transition-colors duration-200`}
             aria-label="Toggle dark mode">
             {darkMode ? (
               <svg
@@ -88,7 +96,7 @@ export default function Navigation() {
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-gray-100"
+                className="h-6 w-6 text-gray-800"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor">
