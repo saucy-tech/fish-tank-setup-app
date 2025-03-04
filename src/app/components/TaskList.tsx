@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useTank, Task } from "../data/TankContext";
-import { useTheme } from "../data/ThemeContext";
 import { formatDate } from "../utils/helpers";
 import { phases, startDate } from "../data/tankSetupData";
 
@@ -15,7 +14,6 @@ export default function TaskList() {
     getCurrentPhase,
     updateTask,
   } = useTank();
-  const { darkMode } = useTheme();
   const [newTaskText, setNewTaskText] = useState("");
   const [showCompleted, setShowCompleted] = useState(true);
   const [filterPhase, setFilterPhase] = useState<number | null>(null);

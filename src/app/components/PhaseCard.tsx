@@ -2,15 +2,12 @@
 
 import React from "react";
 import { Phase } from "../data/tankSetupData";
-import { useTheme } from "../data/ThemeContext";
 
 interface PhaseCardProps {
   phase: Phase;
 }
 
 export default function PhaseCard({ phase }: PhaseCardProps) {
-  const { darkMode } = useTheme();
-
   return (
     <div className="border border-blue-100 dark:border-blue-800 rounded-lg p-4 bg-blue-50 dark:bg-blue-900/30">
       <h3 className="text-xl font-bold text-blue-800 dark:text-blue-300 mb-2">

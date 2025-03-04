@@ -1,13 +1,10 @@
 "use client";
 
 import React from "react";
-import { useTheme } from "../data/ThemeContext";
 import ReadingsHistory from "../components/ReadingsHistory";
 import AddReadingForm from "../components/AddReadingForm";
 
 export default function ReadingsPage() {
-  const { darkMode } = useTheme();
-
   return (
     <div className="container mx-auto px-4 max-w-6xl">
       <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-6 shadow-md mb-6">

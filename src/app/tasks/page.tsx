@@ -3,13 +3,10 @@
 import React from "react";
 import TaskList from "../components/TaskList";
 import { useTank } from "../data/TankContext";
-import { useTheme } from "../data/ThemeContext";
 import { phases } from "../data/tankSetupData";
-import ProgressBar from "../components/ProgressBar";
 
 export default function TasksPage() {
   const { getCurrentPhase, tasks } = useTank();
-  const { darkMode } = useTheme();
   const currentPhase = getCurrentPhase();
 
   // Calculate overall progress

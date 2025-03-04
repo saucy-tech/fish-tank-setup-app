@@ -1,13 +1,10 @@
 "use client";
 
 import React from "react";
-import { useTheme } from "../data/ThemeContext";
 import { phases } from "../data/tankSetupData";
 import PhaseCard from "../components/PhaseCard";
 
 export default function GuidePage() {
-  const { darkMode } = useTheme();
-
   return (
     <div className="container mx-auto px-4 max-w-6xl">
       <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-6 shadow-md mb-6">
@@ -126,14 +123,14 @@ export default function GuidePage() {
               Maintain Temperature
             </h3>
             <p className="text-gray-700 dark:text-gray-300">
-              Keep your tank temperature between 75-82°F (24-28°C) to encourage
-              bacterial growth.
+              Keep your tank temperature between 75-82&deg;F (24-28&deg;C) to
+              encourage bacterial growth.
             </p>
           </div>
 
           <div>
             <h3 className="text-lg font-semibold text-blue-700 dark:text-blue-400">
-              Don't Clean Too Much
+              Don&apos;t Clean Too Much
             </h3>
             <p className="text-gray-700 dark:text-gray-300">
               During cycling, don't clean your filter or gravel too thoroughly

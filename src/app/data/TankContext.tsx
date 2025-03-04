@@ -55,10 +55,12 @@ export function TankProvider({ children }: { children: React.ReactNode }) {
       if (savedReadings) {
         // Parse the saved readings and convert date strings back to Date objects
         const parsedReadings = JSON.parse(savedReadings);
-        return parsedReadings.map((reading: any) => ({
-          ...reading,
-          date: new Date(reading.date),
-        }));
+        return parsedReadings.map(
+          (reading: Omit<WaterReading, "date"> & { date: string }) => ({
+            ...reading,
+            date: new Date(reading.date),
+          })
+        );
       }
     }
     return initialReadings;
@@ -71,11 +73,18 @@ export function TankProvider({ children }: { children: React.ReactNode }) {
       if (savedTasks) {
         // Parse the saved tasks and convert date strings back to Date objects
         const parsedTasks = JSON.parse(savedTasks);
-        return parsedTasks.map((task: any) => ({
-          ...task,
-          date: new Date(task.date),
-          dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
-        }));
+        return parsedTasks.map(
+          (
+            task: Omit<Task, "date" | "dueDate"> & {
+              date: string;
+              dueDate?: string;
+            }
+          ) => ({
+            ...task,
+            date: new Date(task.date),
+            dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
+          })
+        );
       }
     }
 

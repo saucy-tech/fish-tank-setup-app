@@ -2,12 +2,10 @@
 
 import React, { useState } from "react";
 import { useTank } from "../data/TankContext";
-import { useTheme } from "../data/ThemeContext";
 import { WaterReading } from "../data/tankSetupData";
 
 export default function AddReadingForm() {
   const { addReading } = useTank();
-  const { darkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const [formData, setFormData] = useState({

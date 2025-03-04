@@ -17,7 +17,15 @@ const getDaysSinceStart = (startDate: Date) => {
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 };
 
-const getPhaseProgress = (currentPhase: any, startDate: Date) => {
+interface Phase {
+  id: number;
+  name: string;
+  startDay: number;
+  endDay: number;
+  description: string;
+}
+
+const getPhaseProgress = (currentPhase: Phase, startDate: Date) => {
   const today = new Date();
   const diffTime = Math.abs(today.getTime() - startDate.getTime());
   const currentDay = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -38,7 +46,7 @@ const getOverallProgress = (startDate: Date) => {
   return Math.min(100, Math.round((currentDay / totalDuration) * 100));
 };
 
-const getPhaseEndDate = (phase: any, startDate: Date) => {
+const getPhaseEndDate = (phase: Phase, startDate: Date) => {
   const endDate = new Date(startDate);
   endDate.setDate(endDate.getDate() + phase.endDay);
   return endDate;
