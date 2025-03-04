@@ -6,7 +6,7 @@ import { useTank } from "../data/TankContext";
 import { useTheme } from "../data/ThemeContext";
 import { formatDate } from "../utils/helpers";
 import { format } from "date-fns";
-import { phases } from "../data/tankSetupData";
+import { phases, Phase } from "../data/tankSetupData";
 import PhaseCard from "./PhaseCard";
 import StartDateTracker from "./StartDateTracker";
 
@@ -16,14 +16,6 @@ const getDaysSinceStart = (startDate: Date) => {
   const diffTime = Math.abs(today.getTime() - startDate.getTime());
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 };
-
-interface Phase {
-  id: number;
-  name: string;
-  startDay: number;
-  endDay: number;
-  description: string;
-}
 
 const getPhaseProgress = (currentPhase: Phase, startDate: Date) => {
   const today = new Date();
@@ -132,30 +124,6 @@ export default function Dashboard() {
     .filter((task) => !task.completed && task.phaseId > currentPhaseId)
     .sort((a, b) => a.phaseId - b.phaseId)
     .slice(0, 3);
-
-  const chartData: ChartData = {
-    labels: readings.map((reading) => format(new Date(reading.date), "MMM d")),
-    datasets: [
-      {
-        label: "Ammonia",
-        data: readings.map((reading) => reading.ammonia),
-        borderColor: "rgb(59, 130, 246)",
-        backgroundColor: "rgba(59, 130, 246, 0.5)",
-      },
-      {
-        label: "Nitrite",
-        data: readings.map((reading) => reading.nitrite),
-        borderColor: "rgb(16, 185, 129)",
-        backgroundColor: "rgba(16, 185, 129, 0.5)",
-      },
-      {
-        label: "Nitrate",
-        data: readings.map((reading) => reading.nitrate),
-        borderColor: "rgb(245, 158, 11)",
-        backgroundColor: "rgba(245, 158, 11, 0.5)",
-      },
-    ],
-  };
 
   return (
     <div className="container mx-auto p-4 max-w-6xl">

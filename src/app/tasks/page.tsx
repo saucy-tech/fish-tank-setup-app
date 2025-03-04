@@ -3,19 +3,18 @@
 import React from "react";
 import TaskList from "../components/TaskList";
 import { useTank } from "../data/TankContext";
+import { useTheme } from "../data/ThemeContext";
 import { phases } from "../data/tankSetupData";
 
 export default function TasksPage() {
   const { getCurrentPhase, tasks } = useTank();
+  const { darkMode } = useTheme();
   const currentPhase = getCurrentPhase();
 
   // Calculate overall progress
   const calculateProgress = () => {
     if (!currentPhase) return 0;
 
-    const currentPhaseIndex = phases.findIndex(
-      (p) => p.name === currentPhase.name
-    );
     const totalDays = phases[phases.length - 1].endDay;
     const currentEndDay = currentPhase.endDay;
 
